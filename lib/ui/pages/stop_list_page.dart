@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maisbugs/data/remote/Paradas.dart';
+import 'package:maisbugs/ui/pages/list_line_page.dart';
+import 'package:maisbugs/ui/pages/stop_element_page.dart';
 import 'package:quiver/iterables.dart';
 
 class StopListPage extends StatelessWidget {
@@ -52,13 +54,13 @@ class ListItemComponent extends StatelessWidget {
                 ),
         )),
         onTap: () {
-          Scaffold.of(context).showSnackBar(SnackBar(content:Text("${item.id}")));
+          Navigator.of(context).push(MaterialPageRoute(builder: (x) => StopElementPage(item.id)));
         },
       );
 }
 
 class StopIndicatorWidget extends StatelessWidget {
-  List<LineResume> stops;
+  final List<LineResume> stops;
   StopIndicatorWidget(this.stops);
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart';
 
@@ -16,6 +15,7 @@ class Stop {
       this.lines);
 }
 
+
 class Coordenada {
   double lat;
   double lon;
@@ -28,10 +28,15 @@ class LineResume {
   String estilo;
 }
 
-Stream<Response> clientStop(x) => post(x, body: jsonEncode({}),headers: {'Content-Type':'application/json'}).asStream();
+Stream<Response> clientStops(x) => post(x, body: jsonEncode({}),headers: {'Content-Type':'application/json'}).asStream();
+
+LineResume parser(LinkedHashMap<String,dynamic> x){
+  return LineResume()..estilo = x['estilo']..sinoptico = x['sinoptico'];
+}
+
 
 Stream<List<Stop>> getStops() =>
-    clientStop("http://app.tussa.org/tussa/api/paradas")
+    clientStops("http://app.tussa.org/tussa/api/paradas")
         .expand((x) => jsonDecode(x.body))
         .map((x) => x as Map<String, dynamic>)
         .map((x) => Stop.empty()
@@ -46,6 +51,5 @@ Stream<List<Stop>> getStops() =>
         .toList()
         .asStream();
 
-LineResume parser(LinkedHashMap<String,dynamic> x){
-  return LineResume()..estilo = x['estilo']..sinoptico = x['sinoptico'];
-}
+
+
