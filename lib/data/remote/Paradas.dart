@@ -53,3 +53,18 @@ Stream<List<Stop>> getStops() =>
 
 
 
+Stream<List<Stop>> getStopsLatLon(double lat, double lon) =>
+    clientStops("http://app.tussa.org/tussa/api/paradas/$lat/$lon")
+        .expand((x) => jsonDecode(x.body))
+        .map((x) => x as Map<String, dynamic>)
+        .map((x) => Stop.empty()
+      ..id = x['id']
+      ..codigo = x['codigo']
+      ..nombre = x['nombre']
+      ..zona = x['zona']
+      ..coordenadas = (Coordenada.empty()
+        ..lat = x['coordenadas']['latitud']
+        ..lon = x['coordenadas']['longitud'])
+      ..lines = ((x['lineas']) as List<dynamic>).map((y) => parser(y)).toList())
+        .toList()
+        .asStream();
