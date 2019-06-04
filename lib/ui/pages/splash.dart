@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:maisbugs/ui/pages/stop_list_page.dart';
-import 'package:geolocator/geolocator.dart';
 
 
 class Splash extends StatefulWidget {
