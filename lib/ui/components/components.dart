@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:maisbugs/data/remote/Li%C3%B1as.dart';
+import 'package:maisbugs/data/remote/Lines.dart';
+import 'package:maisbugs/data/data.dart';
 
 class RowWidget extends StatelessWidget {
-  Line line;
+  final Line line;
   RowWidget(this.line);
 
   @override
@@ -13,8 +14,8 @@ class RowWidget extends StatelessWidget {
           child: Column(
             children: <Widget>[
               CircleAvatar(
-                  backgroundColor:
-                      Color(int.parse(line?.estilo?.replaceAll("#", "0xff")?? '0')),
+                  backgroundColor: Color(
+                      int.parse(line?.estilo?.replaceAll("#", "0xff") ?? '0')),
                   child: Text("${line?.sinoptico ?? ''}")),
               Text(""),
               Text("${line?.nombre ?? ''}")

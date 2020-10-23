@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:maisbugs/data/remote/Li%C3%B1as.dart';
+import 'package:maisbugs/data/remote/Client.dart';
+import 'package:maisbugs/data/remote/Lines.dart';
 import 'package:maisbugs/ui/components/components.dart';
 
 class ListLinesPage extends StatelessWidget {
@@ -15,16 +16,14 @@ class ListLinesPage extends StatelessWidget {
           title: Text('MaisBugs'),
         ),
         body: StreamBuilder(
-            stream: getLinesClient(),
+            stream: Client.getInstance().getLines(),
             builder: (ctx, snap) {
               var current = snap.data as List<Line>;
               return ListView.builder(
                   physics: AlwaysScrollableScrollPhysics(),
                   itemCount: current?.length,
                   itemBuilder: (bctx, i) => GestureDetector(
-                        onTap: () {
-
-                        },
+                        onTap: () {},
                         child: RowWidget(current?.elementAt(i)),
                       ));
             }));

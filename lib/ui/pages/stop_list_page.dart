@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:maisbugs/data/remote/Client.dart';
 import 'package:maisbugs/data/remote/Paradas.dart';
 import 'package:maisbugs/ui/pages/stop_element_page.dart';
 import 'package:quiver/iterables.dart';
-
 
 class StopListPage extends StatelessWidget {
   @override
@@ -12,18 +12,20 @@ class StopListPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text("Paradas proximas")),
         body: StreamBuilder(
-          stream: Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best).asStream().asyncExpand((x) => getStopsLatLon(x.latitude, x.longitude)),
+          stream: Client.getInstance().getStops(),
           builder: (bctx, snap) {
             var x = snap.data as List<Stop>;
-            return x?.length == 0 || x == null ? Center(child: CircularProgressIndicator()): ListView.builder(
-              itemCount: (x)?.length,
-              itemBuilder: (bctx, i) => GestureDetector(
-                    onTap: () {},
-                    child: x == null
-                        ? ListItemComponent(null)
-                        : ListItemComponent(x?.elementAt(i)),
-                  ),
-            );
+            return x?.length == 0 || x == null
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: (x)?.length,
+                    itemBuilder: (bctx, i) => GestureDetector(
+                      onTap: () {},
+                      child: x == null
+                          ? ListItemComponent(null)
+                          : ListItemComponent(x?.elementAt(i)),
+                    ),
+                  );
           },
         ));
   }
@@ -45,7 +47,10 @@ class ListItemComponent extends StatelessWidget {
               : Column(
                   children: <Widget>[
                     Align(
-                        child: Text("${item?.zona}",textScaleFactor: 2,),
+                        child: Text(
+                          "${item?.zona}",
+                          textScaleFactor: 2,
+                        ),
                         alignment: Alignment.topLeft),
                     Align(
                         child: Text("${item?.nombre}"),
@@ -55,7 +60,8 @@ class ListItemComponent extends StatelessWidget {
                 ),
         )),
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (x) => StopElementPage(item.id)));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (x) => StopElementPage(item.id)));
         },
       );
 }
