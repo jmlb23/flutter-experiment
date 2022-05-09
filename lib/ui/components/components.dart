@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maisbugs/data/remote/Lines.dart';
-import 'package:maisbugs/data/data.dart';
 
 class RowWidget extends StatelessWidget {
   final Line line;
+
   RowWidget(this.line);
 
   @override
