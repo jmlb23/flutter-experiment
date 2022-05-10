@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maisbugs/ui/pages/Line/LineDetail.dart';
 import 'package:maisbugs/ui/pages/Stops/Detail/stop_element_page.dart';
 import 'package:maisbugs/ui/pages/splash.dart';
 import 'package:maisbugs/ui/pages/Stops/stop_list_page.dart';
@@ -16,6 +17,10 @@ class App extends StatelessWidget {
             settings:
                 RouteSettings(name: "/stops/${args.id}", arguments: args.id),
             builder: (build) => StopElementPage(args.title));
+      case "/line":
+        return MaterialPageRoute(
+            settings: RouteSettings(name: "/line"),
+            builder: (build) => LineDetail());
       default:
         return MaterialPageRoute(builder: (build) => Container());
     }

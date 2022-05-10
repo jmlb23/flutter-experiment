@@ -111,17 +111,21 @@ class StopIndicatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flex(
-        direction: Axis.horizontal,
-        children: stops
-            .map((y) => Card(
-                child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      "${y.sinoptico}",
-                      style: TextStyle(color: Colors.white),
-                    )),
-                color: Color(int.parse(y.estilo.replaceAll("#", "0xff")))))
-            .toList());
+    return Container(
+      alignment: AlignmentDirectional.centerStart,
+      child: Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.start,
+          children: stops
+              .map((y) => Card(
+                  child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "${y.sinoptico}",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                  color: Color(int.parse(y.estilo.replaceAll("#", "0xff")))))
+              .toList()),
+    );
   }
 }

@@ -135,43 +135,46 @@ class RowElement extends StatelessWidget {
     return Container(
         margin: EdgeInsets.symmetric(vertical: 0, horizontal: 100),
         padding: EdgeInsets.only(bottom: 10),
-        child: Card(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("${parada.minutosProximoPaso} min",
-                          textScaleFactor: 3,
-                          style: TextStyle(color: Colors.white)),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                        child: Text("-",
+        child: GestureDetector(
+          onTap: () => Navigator.pushNamed(ctx, "/line"),
+          child: Card(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("${parada.minutosProximoPaso} min",
                             textScaleFactor: 3,
                             style: TextStyle(color: Colors.white)),
-                      ),
-                      Align(
-                        child: Text(parada?.sinoptico,
-                            textScaleFactor: 3,
-                            style: TextStyle(color: Colors.white)),
-                        alignment: Alignment.center,
-                      ),
-                    ],
-                  )),
-              Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    parada?.nombre ?? "Sen Informacion",
-                    textScaleFactor: 1,
-                    style: TextStyle(color: Colors.white),
-                  )),
-            ],
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                          child: Text("-",
+                              textScaleFactor: 3,
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        Align(
+                          child: Text(parada?.sinoptico,
+                              textScaleFactor: 3,
+                              style: TextStyle(color: Colors.white)),
+                          alignment: Alignment.center,
+                        ),
+                      ],
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      parada?.nombre ?? "Sen Informacion",
+                      textScaleFactor: 1,
+                      style: TextStyle(color: Colors.white),
+                    )),
+              ],
+            ),
+            color: Color(int.parse(parada.estilo.replaceAll("#", "0xff"))),
           ),
-          color: Color(int.parse(parada.estilo.replaceAll("#", "0xff"))),
         ));
   }
 }
