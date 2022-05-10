@@ -17,13 +17,11 @@ class StateSplash extends State<Splash> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         body: Center(
             child: Text(
-              "MaisBus",
-              textScaleFactor: 10,
-            )),
-        backgroundColor: Colors.blue,
+          "MaisBus",
+          textScaleFactor: 10,
+        )),
       );
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:maisbugs/data/remote/Client.dart';
-import 'package:maisbugs/data/remote/Parada.dart';
 import 'package:maisbugs/data/remote/Paradas.dart';
 
 class StopsListViewModel {

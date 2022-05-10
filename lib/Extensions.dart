@@ -1,6 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 extension UriParser on String {
@@ -9,10 +7,12 @@ extension UriParser on String {
 
 extension HTTPCurl on Future<Response> {
   Future<Response> toCurl() {
-    return this
-        .then((value) =>
-            "curl -X ${value.request.method} \"${value.request.url}\" ${value.request.headers.entries.map((entrie) => "-H \"${entrie.key}: ${entrie.value}\" ").join(" ")} ")
-        .then((value) => print(value))
-        .then((value) => this);
+    return kDebugMode
+        ? this
+            .then((value) =>
+                "curl -X ${value.request.method} \"${value.request.url}\" ${value.request.headers.entries.map((entrie) => "-H \"${entrie.key}: ${entrie.value}\" ").join(" ")} ")
+            .then((value) => print(value))
+            .then((value) => this)
+        : this;
   }
 }

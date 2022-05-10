@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:maisbugs/data/remote/Paradas.dart';
-import 'package:maisbugs/ui/pages/Detail/stop_element_page.dart';
+import 'package:maisbugs/ui/pages/Stops/Detail/stop_element_page.dart';
 
 import 'StopsListViewModel.dart';
 
