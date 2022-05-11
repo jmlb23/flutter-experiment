@@ -30,15 +30,15 @@ void main() {
     var list = await Client.getInstance().getStop(100);
     print(list);
 
-    assert(list != null);
+    assert(list.id != null);
   });
 
   test(
-      'when a request is made on /paradas/lat/long should return a not null element',
+      'when a request is made on /paradas/lat/long should return a not empty list',
       () async {
-    var list = await Client.getInstance().getStopLatLong(42, -8);
+    var list = await Client.getInstance().getStopLatLong(42.8867, -8.54169);
     print(list);
 
-    assert(list != null);
+    assert(list.isNotEmpty);
   });
 }
