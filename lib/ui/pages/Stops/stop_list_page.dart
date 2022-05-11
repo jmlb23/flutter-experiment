@@ -10,7 +10,7 @@ class StopListPage extends StatefulWidget {
 }
 
 class StopListState extends State<StopListPage> {
-  Position _position;
+  Position? _position;
   StopsListViewModel _stopsListViewModel = StopsListViewModel();
 
   initState() {
@@ -30,16 +30,14 @@ class StopListState extends State<StopListPage> {
         body: StreamBuilder(
       stream: _stopsListViewModel.stops,
       builder: (bctx, snap) {
-        var x = snap.data as List<Stop>;
-        return x?.length == 0 || x == null
+        var x = snap.data as List<Stop>? ?? [];
+        return x.isEmpty
             ? Center(child: CircularProgressIndicator())
             : ListView.builder(
-                itemCount: (x)?.length,
+                itemCount: (x).length,
                 itemBuilder: (bctx, i) => GestureDetector(
                   onTap: () {},
-                  child: x == null
-                      ? ListItemComponent(null)
-                      : ListItemComponent(x?.elementAt(i)),
+                  child: ListItemComponent(x.elementAt(i)),
                 ),
               );
       },
@@ -69,7 +67,7 @@ class ListItemComponent extends StatelessWidget {
                             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: Align(
                                 child: Container(
-                                    child: Text("${item?.codigo}",
+                                    child: Text("${item.codigo}",
                                         textScaleFactor: 2),
                                     padding: EdgeInsets.all(5),
                                     decoration: BoxDecoration(
@@ -79,7 +77,7 @@ class ListItemComponent extends StatelessWidget {
                                 alignment: Alignment.topLeft)),
                         Align(
                             child: Text(
-                              "${item?.nombre}",
+                              "${item.nombre}",
                               textScaleFactor: 2,
                             ),
                             alignment: Alignment.topLeft),
@@ -88,18 +86,18 @@ class ListItemComponent extends StatelessWidget {
                     Padding(
                         padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                         child: Align(
-                            child: Text("${item.distancia.toInt()} mts.",
+                            child: Text("${item.distancia?.toInt()} mts.",
                                 textScaleFactor: 1),
                             alignment: Alignment.centerLeft)),
                     Padding(
                         padding: EdgeInsets.fromLTRB(5, 10, 10, 10),
-                        child: StopIndicatorWidget(item?.lineas)),
+                        child: StopIndicatorWidget(item.lineas ?? [])),
                   ],
                 ),
         )),
         onTap: () {
           Navigator.pushNamed(context, "/stops/:id",
-              arguments: StopElementPageArgs(item.id, item.nombre));
+              arguments: StopElementPageArgs(item.id ?? 0, item.nombre ?? ""));
         },
       );
 }
@@ -124,7 +122,8 @@ class StopIndicatorWidget extends StatelessWidget {
                         "${y.sinoptico}",
                         style: TextStyle(color: Colors.white),
                       )),
-                  color: Color(int.parse(y.estilo.replaceAll("#", "0xff")))))
+                  color: Color(int.parse(
+                      y.estilo?.replaceAll("#", "0xff") ?? "0xffffffff"))))
               .toList()),
     );
   }

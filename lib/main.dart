@@ -17,10 +17,11 @@ class App extends StatelessWidget {
             settings:
                 RouteSettings(name: "/stops/${args.id}", arguments: args.id),
             builder: (build) => StopElementPage(args.title));
-      case "/line":
+      case "/line/:id":
+        var arg = settings.arguments as int?;
         return MaterialPageRoute(
-            settings: RouteSettings(name: "/line"),
-            builder: (build) => LineDetail());
+            settings: RouteSettings(name: "/line/${arg}", arguments: arg),
+            builder: (build) => LineDetail(arg));
       default:
         return MaterialPageRoute(builder: (build) => Container());
     }

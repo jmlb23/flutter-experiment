@@ -10,7 +10,7 @@ extension HTTPCurl on Future<Response> {
     return kDebugMode
         ? this
             .then((value) =>
-                "curl -X ${value.request.method} \"${value.request.url}\" ${value.request.headers.entries.map((entrie) => "-H \"${entrie.key}: ${entrie.value}\" ").join(" ")} ")
+                "curl -X ${value.request?.method} \"${value.request?.url}\" ${value.request?.headers.entries.map((entrie) => "-H \"${entrie.key}: ${entrie.value}\" ").join(" ")} ")
             .then((value) => print(value))
             .then((value) => this)
         : this;

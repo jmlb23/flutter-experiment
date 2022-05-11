@@ -22,7 +22,7 @@ class StopElementPage extends StatefulWidget {
 }
 
 class StopElementState extends State<StopElementPage> {
-  int _idParada;
+  int? _idParada = null;
   String title;
   StopElementViewModel _elementViewModel = StopElementViewModel();
 
@@ -30,7 +30,8 @@ class StopElementState extends State<StopElementPage> {
 
   @override
   void didChangeDependencies() {
-    _idParada = ModalRoute.of(context).settings.arguments;
+    _idParada =
+        int.parse(ModalRoute.of(context)?.settings.arguments.toString() ?? "0");
     super.didChangeDependencies();
   }
 
@@ -41,7 +42,7 @@ class StopElementState extends State<StopElementPage> {
           body: StreamBuilder(
               stream: _elementViewModel.stops,
               builder: (bctx, data) {
-                final parada = data.data as IndividualStop;
+                final parada = data.data as IndividualStop?;
                 return RefreshIndicator(
                     child: ScrollConfiguration(
                         behavior: ScrollConfiguration.of(context).copyWith(
@@ -59,7 +60,7 @@ class StopElementState extends State<StopElementPage> {
                                       child: Row(
                                         children: [
                                           Container(
-                                            child: Text(parada?.codigo ?? "",
+                                            child: Text(parada.codigo ?? "",
                                                 textScaleFactor: 2),
                                             decoration: BoxDecoration(
                                                 border: Border.all(
@@ -69,7 +70,7 @@ class StopElementState extends State<StopElementPage> {
                                             padding: EdgeInsets.all(5),
                                           ),
                                           Container(
-                                            child: Text(parada?.nombre ?? "",
+                                            child: Text(parada.nombre ?? "",
                                                 textScaleFactor: 2),
                                             padding: EdgeInsets.all(5),
                                           ),
@@ -80,7 +81,7 @@ class StopElementState extends State<StopElementPage> {
                                       child: Row(
                                         children: [
                                           Container(
-                                            child: Text(parada?.zona ?? "",
+                                            child: Text(parada.zona ?? "",
                                                 textScaleFactor: 1),
                                             padding: EdgeInsets.all(5),
                                           ),
@@ -104,7 +105,7 @@ class StopElementState extends State<StopElementPage> {
                                   child: parada == null
                                       ? Center(
                                           child: CircularProgressIndicator())
-                                      : parada.lineas.isEmpty
+                                      : (parada.lineas ?? []).isEmpty
                                           ? Container(
                                               child: Center(
                                                   child:
@@ -113,20 +114,22 @@ class StopElementState extends State<StopElementPage> {
                                               shrinkWrap: true,
                                               scrollDirection: Axis.vertical,
                                               itemCount:
-                                                  parada?.lineas?.length ?? 0,
+                                                  parada.lineas?.length ?? 0,
                                               itemBuilder: (bctx, id) =>
                                                   RowElement(
-                                                      parada?.lineas[id]),
+                                                      parada.lineas?[id]),
                                             )))
                         ])),
                     triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                    onRefresh: () => _elementViewModel.load(_idParada));
+                    onRefresh: () => _idParada != null
+                        ? _elementViewModel.load(_idParada!)
+                        : () {}());
               })),
-      future: _elementViewModel.load(_idParada));
+      future: _idParada != null ? _elementViewModel.load(_idParada!) : () {}());
 }
 
 class RowElement extends StatelessWidget {
-  final IndividualStopLinea parada;
+  final IndividualStopLinea? parada;
 
   RowElement(this.parada);
 
@@ -136,7 +139,8 @@ class RowElement extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 0, horizontal: 100),
         padding: EdgeInsets.only(bottom: 10),
         child: GestureDetector(
-          onTap: () => Navigator.pushNamed(ctx, "/line"),
+          onTap: () =>
+              Navigator.pushNamed(ctx, "/line/:id", arguments: parada?.id),
           child: Card(
             child: Column(
               children: <Widget>[
@@ -146,7 +150,7 @@ class RowElement extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("${parada.minutosProximoPaso} min",
+                        Text("${parada?.minutosProximoPaso} min",
                             textScaleFactor: 3,
                             style: TextStyle(color: Colors.white)),
                         Padding(
@@ -157,7 +161,7 @@ class RowElement extends StatelessWidget {
                               style: TextStyle(color: Colors.white)),
                         ),
                         Align(
-                          child: Text(parada?.sinoptico,
+                          child: Text(parada?.sinoptico ?? "",
                               textScaleFactor: 3,
                               style: TextStyle(color: Colors.white)),
                           alignment: Alignment.center,
@@ -173,7 +177,8 @@ class RowElement extends StatelessWidget {
                     )),
               ],
             ),
-            color: Color(int.parse(parada.estilo.replaceAll("#", "0xff"))),
+            color: Color(int.parse(
+                parada?.estilo?.replaceAll("#", "0xff") ?? "0xffffffff")),
           ),
         ));
   }

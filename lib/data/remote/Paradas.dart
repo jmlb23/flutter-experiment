@@ -21,20 +21,20 @@ class Stop {
     this.lineas,
   });
 
-  int id;
-  String codigo;
-  String nombre;
-  String zona;
-  double distancia;
-  Coordenadas coordenadas;
-  List<Linea> lineas;
+  int? id;
+  String? codigo;
+  String? nombre;
+  String? zona;
+  double? distancia;
+  Coordenadas? coordenadas;
+  List<Linea>? lineas;
 
   factory Stop.fromJson(Map<String, dynamic> json) => Stop(
         id: json["id"],
         codigo: json["codigo"],
         nombre: json["nombre"],
         zona: json["zona"] == null ? null : json["zona"],
-        distancia: json["distancia"].toDouble(),
+        distancia: json["distancia"]?.toDouble(),
         coordenadas: Coordenadas.fromJson(json["coordenadas"]),
         lineas: List<Linea>.from(json["lineas"].map((x) => Linea.fromJson(x))),
       );
@@ -45,8 +45,8 @@ class Stop {
         "nombre": nombre,
         "zona": zona == null ? null : zona,
         "distancia": distancia,
-        "coordenadas": coordenadas.toJson(),
-        "lineas": List<dynamic>.from(lineas.map((x) => x.toJson())),
+        "coordenadas": coordenadas?.toJson(),
+        "lineas": List<dynamic>.from(lineas?.map((x) => x.toJson()) ?? []),
       };
 }
 
@@ -56,12 +56,12 @@ class Coordenadas {
     this.longitud,
   });
 
-  double latitud;
-  double longitud;
+  double? latitud;
+  double? longitud;
 
   factory Coordenadas.fromJson(Map<String, dynamic> json) => Coordenadas(
-        latitud: json["latitud"].toDouble(),
-        longitud: json["longitud"].toDouble(),
+        latitud: json["latitud"]?.toDouble(),
+        longitud: json["longitud"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -76,8 +76,8 @@ class Linea {
     this.estilo,
   });
 
-  String sinoptico;
-  String estilo;
+  String? sinoptico;
+  String? estilo;
 
   factory Linea.fromJson(Map<String, dynamic> json) => Linea(
         sinoptico: json["sinoptico"],
